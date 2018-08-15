@@ -23,7 +23,7 @@
 
 class c2Interface {
 public:
-	virtual ~c2Interface()=0;
+	virtual ~c2Interface() {};
 };
 
 #endif // _INTERFACECLASS_H_
