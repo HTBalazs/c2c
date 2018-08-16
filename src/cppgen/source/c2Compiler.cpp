@@ -18,6 +18,7 @@
     For more information please visit: https://bitbucket.org/nauticleproject/
 */
 
+#include "prolog/pLogger.h"
 #include "c2Compiler.h"
 
 using namespace c2c;
@@ -32,9 +33,11 @@ void c2Compiler::compile() const {
 		cpp2object += " " + it;
 		object2shared += " " + it;
 	}
-	cpp2object += " -c " + name + ".cpp -o " + name + ".o";
-	object2shared += " -shared " + name + ".o -o lib" + name + ".so";
-	system(cpp2object.c_str());
+	cpp2object += " -c " + incs + " " + name + ".cpp -o " + name + ".o";
+	object2shared += " -shared " + name + ".o " + libs + " -o lib" + name + ".so";
+    ProLog::pLogger::logf<ProLog::CYN>("C2C compilation of %s.cpp as:\n  %s",name.c_str(), cpp2object.c_str());
+    system(cpp2object.c_str());
+    ProLog::pLogger::logf<ProLog::CYN>("C2C linking of %s.o as:\n  %s",name.c_str(), object2shared.c_str());
 	system(object2shared.c_str());
 }
 
@@ -50,4 +53,12 @@ void c2Compiler::set_compiler(std::string const& comp) {
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2Compiler::add_flag(std::string const& flag) {
 	flags.push_back(flag);
+}
+
+void c2Compiler::add_includes(std::string const& inc) {
+    incs = inc;
+}
+
+void c2Compiler::add_libraries(std::string const& lib) {
+    libs = lib;
 }
