@@ -35,9 +35,9 @@ void c2Compiler::compile() const {
 	}
 	cpp2object += " -c " + incs + " " + name + ".cpp -o " + name + ".o";
 	object2shared += " -shared " + name + ".o " + libs + " -o lib" + name + ".so";
-    ProLog::pLogger::logf<ProLog::CYN>("C2C compilation of %s.cpp as:\n  %s",name.c_str(), cpp2object.c_str());
+    ProLog::pLogger::logf<ProLog::CYN>("C2C compilation of %s.cpp as:\n  %s\n",name.c_str(), cpp2object.c_str());
     system(cpp2object.c_str());
-    ProLog::pLogger::logf<ProLog::CYN>("C2C linking of %s.o as:\n  %s",name.c_str(), object2shared.c_str());
+    ProLog::pLogger::logf<ProLog::CYN>("C2C linking of %s.o as:\n  %s\n",name.c_str(), object2shared.c_str());
 	system(object2shared.c_str());
 }
 
