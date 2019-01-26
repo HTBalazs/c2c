@@ -19,6 +19,7 @@
 */
 
 #include "c2CPP_source_file.h"
+#include "prolog/pLogger.h"
 
 using namespace c2c;
 
@@ -26,6 +27,10 @@ using namespace c2c;
 /// Generates and writes source file.
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2CPP_source_file::write_file(std::string const& directory/*=""*/) const {
+    ProLog::pLogger::logf<ProLog::NRM>("Writing source file ");
+    ProLog::pLogger::logf<ProLog::LBL>("%s.cpp", header.get_name().c_str());
+    ProLog::pLogger::logf<ProLog::NRM>(" to /%s.\n", directory.c_str());
+    fflush(stdout);
     std::ofstream source_file;
     std::string file_name = directory + "/" + header.get_name() + ".cpp";
     source_file.open(file_name.c_str(), std::ofstream::out);

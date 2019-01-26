@@ -19,6 +19,7 @@
 */
 
 #include "c2Loader.h"
+#include "prolog/pLogger.h"
 #include <iostream>
 
 using namespace c2c;
@@ -27,6 +28,9 @@ using namespace c2c;
 /// Constructor.
 /////////////////////////////////////////////////////////////////////////////////////////
 c2Loader::c2Loader(std::string const& dir, std::string const& n) : name{n} {
+    ProLog::pLogger::logf<ProLog::NRM>("Load shared object ");
+    ProLog::pLogger::logf<ProLog::LBL>("%s\n", (dir+"/lib" + name + ".so").c_str());
+    fflush(stdout);
 	handle = dlopen((dir+"/lib" + name + ".so").c_str(), RTLD_NOW);
 	if(!handle) {
 		printf("The error is %s", dlerror());

@@ -19,6 +19,7 @@
 */
 
 #include "c2CPP_header_file.h"
+#include "prolog/pLogger.h"
 
 using namespace c2c;
 
@@ -107,6 +108,10 @@ std::vector<c2CPP_namespace> c2CPP_header_file::get_namespaces() const {
 /// Writes header file.
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2CPP_header_file::write_file(std::string const& directory/*=""*/) const {
+	ProLog::pLogger::logf<ProLog::NRM>("Writing header file ");
+	ProLog::pLogger::logf<ProLog::LBL>("%s.h", name.c_str());
+	ProLog::pLogger::logf<ProLog::NRM>(" to /%s.\n", directory.c_str());
+	fflush(stdout);
 	std::ofstream header_file;
 	std::string file_name = directory + "/" + name + ".h";
 	header_file.open(file_name.c_str(), std::ofstream::out);

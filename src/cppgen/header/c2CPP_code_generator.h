@@ -29,14 +29,14 @@
 namespace c2c {
 	class c2CPP_code_generator {
         std::string directory = "";
-		std::vector<c2CPP_header_file> header;
-		std::vector<c2CPP_source_file> source;
+		std::vector<std::shared_ptr<c2CPP_header_file>> headers;
+		std::vector<std::shared_ptr<c2CPP_source_file>> sources;
         void write_header_files() const;
         void write_source_files() const;
     public:
         void set_directory(std::string const& dir);
-        void add_header(c2CPP_header_file const& hdr);
-        void add_source(c2CPP_source_file const& src);
+        void add_header(std::shared_ptr<c2CPP_header_file> hdr);
+        void add_source(std::shared_ptr<c2CPP_source_file> src);
 		void write_files() const;
 	};
 }

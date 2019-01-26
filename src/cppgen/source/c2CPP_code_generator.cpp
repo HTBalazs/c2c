@@ -32,23 +32,23 @@ void c2CPP_code_generator::set_directory(std::string const& dir) {
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Add header to the code generator.
 /////////////////////////////////////////////////////////////////////////////////////////
-void c2CPP_code_generator::add_header(c2CPP_header_file const& hdr) {
-	header.push_back(hdr);
+void c2CPP_code_generator::add_header(std::shared_ptr<c2CPP_header_file> hdr) {
+	headers.push_back(hdr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Add source to the code generator.
 /////////////////////////////////////////////////////////////////////////////////////////
-void c2CPP_code_generator::add_source(c2CPP_source_file const& src) {
-	source.push_back(src);
+void c2CPP_code_generator::add_source(std::shared_ptr<c2CPP_source_file> src) {
+	sources.push_back(src);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Writes header files.
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2CPP_code_generator::write_header_files() const {
-    for(auto const& it:header) {
-        it.write_file(directory);
+    for(auto const& it:headers) {
+        it->write_file(directory);
     }
 }
 
@@ -56,8 +56,8 @@ void c2CPP_code_generator::write_header_files() const {
 /// Writes source files.
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2CPP_code_generator::write_source_files() const {
-    for(auto const& it:source) {
-        it.write_file(directory);
+    for(auto const& it:sources) {
+        it->write_file(directory);
     }
 }
 
