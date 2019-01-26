@@ -26,6 +26,8 @@
 #include "dlfcn.h"
 
 namespace c2c {
+	/** This class implements the runtime shared object loading.
+    */
 	class c2Loader {
 	    typedef c2Interface* create_t();
 	    typedef void destroy_t(c2Interface*);

@@ -25,6 +25,8 @@
 #include <vector>
 
 namespace c2c {
+    /** This class implements a generator for a CMakeLists.txt file.
+    */
 	class c2Cmake_generator {
     public:
         enum build_type {DEBUG, RELEASE};

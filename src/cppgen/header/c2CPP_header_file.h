@@ -28,6 +28,8 @@
 #include <algorithm>
 
 namespace c2c{
+	/** This class implements a generator for a C++ header file.
+    */
 	class c2CPP_header_file {
 		std::string name = "";
 		std::vector<c2CPP_namespace> ns;

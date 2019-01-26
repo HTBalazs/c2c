@@ -28,6 +28,8 @@
 #include <vector>
 
 namespace c2c {
+    /** This class implements a generator for a C++ source file.
+    */
 	class c2CPP_source_file {
 		c2CPP_header_file header;
 	public:

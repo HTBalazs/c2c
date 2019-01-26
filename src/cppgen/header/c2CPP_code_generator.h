@@ -27,6 +27,8 @@
 #include <string>
 
 namespace c2c {
+    /** This class implements the writing of given the header and source files.
+    */
 	class c2CPP_code_generator {
         std::string directory = "";
 		std::vector<std::shared_ptr<c2CPP_header_file>> headers;

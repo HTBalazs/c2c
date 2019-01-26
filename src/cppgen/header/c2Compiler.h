@@ -28,6 +28,8 @@
 #include <vector>
 
 namespace c2c {
+    /** This class wraps the runtime code assemly, compilation and linking.
+    */
 	class c2Compiler {
 	private:
         std::string directory;
@@ -36,7 +38,6 @@ namespace c2c {
         std::vector<std::shared_ptr<c2CPP_source_file>> sources;
         std::shared_ptr<c2Cmake_generator> cmake_generator;
     private:
-        std::string current_directory() const;
         void generate_code() const;
         void generate_cmake_file() const;
     public:
