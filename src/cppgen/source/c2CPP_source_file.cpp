@@ -25,9 +25,9 @@ using namespace c2c;
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Generates and writes source file.
 /////////////////////////////////////////////////////////////////////////////////////////
-void c2CPP_source_file::write_file() const {
+void c2CPP_source_file::write_file(std::string const& directory/*=""*/) const {
     std::ofstream source_file;
-    std::string file_name = header.get_name() + ".cpp";
+    std::string file_name = directory + "/" + header.get_name() + ".cpp";
     source_file.open(file_name.c_str(), std::ofstream::out);
     std::stringstream ss;
     ss << "#include \"" << header.get_name() << ".h\"\n\n";

@@ -26,8 +26,8 @@ using namespace c2c;
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Constructor.
 /////////////////////////////////////////////////////////////////////////////////////////
-c2Loader::c2Loader(std::string const& n) : name{n} {
-	handle = dlopen(("./lib" + name + ".so").c_str(), RTLD_NOW);
+c2Loader::c2Loader(std::string const& dir, std::string const& n) : name{n} {
+	handle = dlopen((dir+"/lib" + name + ".so").c_str(), RTLD_NOW);
 	if(!handle) {
 		printf("The error is %s", dlerror());
 	}

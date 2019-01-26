@@ -35,7 +35,7 @@ namespace c2c {
 		destroy_t* destroy;
 		create_t* create;
 	public:
-		c2Loader(std::string const& n);
+		c2Loader(std::string const& dir, std::string const& n);
 		c2Interface* create_object();
 		void destroy_object(c2Interface* obj);
 	};

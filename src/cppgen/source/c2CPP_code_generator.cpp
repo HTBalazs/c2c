@@ -23,6 +23,13 @@
 using namespace c2c;
 
 /////////////////////////////////////////////////////////////////////////////////////////
+/// Set the directory for code generation.
+/////////////////////////////////////////////////////////////////////////////////////////
+void c2CPP_code_generator::set_directory(std::string const& dir) {
+    directory = dir;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 /// Add header to the code generator.
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2CPP_code_generator::add_header(c2CPP_header_file const& hdr) {
@@ -41,7 +48,7 @@ void c2CPP_code_generator::add_source(c2CPP_source_file const& src) {
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2CPP_code_generator::write_header_files() const {
     for(auto const& it:header) {
-        it.write_file();
+        it.write_file(directory);
     }
 }
 
@@ -50,7 +57,7 @@ void c2CPP_code_generator::write_header_files() const {
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2CPP_code_generator::write_source_files() const {
     for(auto const& it:source) {
-        it.write_file();
+        it.write_file(directory);
     }
 }
 
@@ -58,6 +65,10 @@ void c2CPP_code_generator::write_source_files() const {
 /// Writes header and source files.
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2CPP_code_generator::write_files() const {
+    if(directory!="") {
+        system(std::string{"rm -r -f " + directory}.c_str());
+        system(std::string{"mkdir " + directory}.c_str());
+    }
     write_header_files();
     write_source_files();
 }

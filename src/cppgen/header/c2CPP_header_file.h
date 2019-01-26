@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 
 namespace c2c{
 	class c2CPP_header_file {
@@ -46,7 +47,7 @@ namespace c2c{
 		void add_namespace(std::string const& nsname);
 		c2CPP_namespace& get_namespace(std::string const& nsname);
 		std::vector<c2CPP_namespace> get_namespaces() const;
-		void write_file() const;
+		void write_file(std::string const& directory="") const;
 		std::string get_name() const;
 	};
 }

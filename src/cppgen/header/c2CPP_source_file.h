@@ -32,7 +32,7 @@ namespace c2c {
 		c2CPP_header_file header;
 	public:
 		c2CPP_source_file(c2CPP_header_file const& hdr) : header{hdr} {}
-		void write_file() const;
+		void write_file(std::string const& directory="") const;
 	};
 }
 

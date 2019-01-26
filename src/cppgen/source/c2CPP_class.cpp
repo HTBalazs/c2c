@@ -26,7 +26,11 @@ using namespace c2c;
 /// Starts the contruction of class definition.
 /////////////////////////////////////////////////////////////////////////////////////////
 std::string c2CPP_class::open_session() const {
-	std::string osession = std::string(level, '\t') + type + " " + name + (interface==""?"":" : public ") + interface + " {\n";
+	std::string osession = std::string(level, '\t') + type + " " + name;
+	for(auto const& it:interface) {
+		osession += std::string{it==interface[0] ? " : " : " , "} + "public " + it;
+	}
+	osession += " {\n";
 	return osession;
 }
 
@@ -76,7 +80,7 @@ void c2CPP_class::add_comment(std::string const& c) {
 /// Add parent to the class (mandatory for dynamic linking).
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2CPP_class::add_interface(std::string const& parent) {
-	interface = parent;
+	interface.push_back(parent);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

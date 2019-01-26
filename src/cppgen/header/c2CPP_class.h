@@ -32,7 +32,7 @@ namespace c2c {
 		std::string comment="Generated class.";
 		std::vector<c2CPP_class_member_type> member_types;
 		std::vector<c2CPP_class_member_function> member_functions;
-		std::string interface = "";
+		std::vector<std::string> interface;
 	public:
 		c2CPP_class(std::string const& n) : c2CPP_scope{"class", n} {}
 		std::string open_session() const override;

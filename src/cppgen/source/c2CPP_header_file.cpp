@@ -106,9 +106,9 @@ std::vector<c2CPP_namespace> c2CPP_header_file::get_namespaces() const {
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Writes header file.
 /////////////////////////////////////////////////////////////////////////////////////////
-void c2CPP_header_file::write_file() const {
+void c2CPP_header_file::write_file(std::string const& directory/*=""*/) const {
 	std::ofstream header_file;
-	std::string file_name = name + ".h";
+	std::string file_name = directory + "/" + name + ".h";
 	header_file.open(file_name.c_str(), std::ofstream::out);
 	std::stringstream ss;
 	ss << intro().c_str() << "\n\n";

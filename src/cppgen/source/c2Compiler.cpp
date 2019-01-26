@@ -20,45 +20,78 @@
 
 #include "prolog/pLogger.h"
 #include "c2Compiler.h"
+#include <fstream>
+#include <sstream>
+#include <limits.h>
+#include <unistd.h>
 
 using namespace c2c;
 
+// std::string c2Compiler::current_directory() const {
+//     char buffer[1000];
+//     GetModuleFileName(NULL, buffer, 1000);
+//     string::size_type pos = string(buffer).find_last_of("\\/");
+//     return string(buffer).substr(0, pos);
+// }
+
+std::string c2Compiler::current_directory() const {
+  char result[1000];
+  ssize_t count = readlink( "/proc/self/exe", result, 1000);
+  return std::string( result, (count > 0) ? count : 0 );
+}
+
+void c2Compiler::generate_cmake_file() const {
+    std::ofstream cmake_file;
+    std::string file_name = directory + "/" + cmake_name;
+    cmake_file.open(file_name.c_str(), std::ofstream::out);
+    cmake_file  << "cmake_minimum_required(VERSION 2.8.9)\n";
+    cmake_file  << "set(CMAKE_CXX_STANDARD 14)\n";
+    cmake_file  << "set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} \"-pthread -O3 -fPIC\")\n";
+    cmake_file  << "project(pmBinary_case)\n\n";
+    cmake_file  << "link_directories(/usr/local/lib/prolog)\n";
+    cmake_file  << "link_directories(/usr/local/lib/commonutils)\n";
+    cmake_file  << "link_directories(/usr/local/lib/c2c)\n";
+    cmake_file  << "link_directories(/usr/local/lib/nauticle)\n\n";
+    cmake_file  << "include_directories(/usr/local/include/nauticle)\n";
+    cmake_file  << "include_directories(/usr/local/include/prolog)\n";
+    cmake_file  << "include_directories(/usr/local/include/c2c)\n";
+    cmake_file  << "include_directories(/usr/local/include/commonutils)\n\n";
+    cmake_file  << "add_library(pmBinary_case SHARED pmBinary_case.cpp)\n";
+    cmake_file  << "set_target_properties(pmBinary_case PROPERTIES SUFFIX \".so\")\n\n";
+    cmake_file  << "#Bring dependencies\n";
+    cmake_file  << "target_link_libraries(pmBinary_case /usr/local/lib/prolog/libprolog.a)\n";
+    cmake_file  << "target_link_libraries(pmBinary_case /usr/local/lib/commonutils/libcommonutils.a)\n";
+    cmake_file  << "target_link_libraries(pmBinary_case /usr/local/lib/libyaml-cpp.a)\n";
+    cmake_file  << "target_link_libraries(pmBinary_case /usr/local/lib/c2c/libc2c.a)\n";
+    cmake_file  << "target_link_libraries(pmBinary_case /usr/local/lib/nauticle/libnauticle.a)\n\n";
+    cmake_file  << "install(TARGETS pmBinary_case LIBRARY DESTINATION . PUBLIC_HEADER DESTINATION .)\n";
+    cmake_file.close();
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
-/// Compiles the code
+/// Compiles the code with cmake.
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2Compiler::compile() const {
-	std::string cpp2object = compiler;
-	std::string object2shared = compiler;
-	for(auto const& it:flags) {
-		cpp2object += " " + it;
-		object2shared += " " + it;
-	}
-	cpp2object += " -c " + incs + " " + name + ".cpp -o " + name + ".o";
-	object2shared += " -shared " + name + ".o " + libs + " -o lib" + name + ".so";
-    ProLog::pLogger::logf<ProLog::CYN>("C2C compilation of %s.cpp as:\n  %s\n",name.c_str(), cpp2object.c_str());
-    system(cpp2object.c_str());
-    ProLog::pLogger::logf<ProLog::CYN>("C2C linking of %s.o as:\n  %s\n",name.c_str(), object2shared.c_str());
-	system(object2shared.c_str());
+    char pwd[1024];
+    char *path = getcwd(pwd, sizeof(pwd));
+    std::string wdir = std::string{pwd};
+    std::string build_dir = wdir + "/" + directory;
+    chdir(build_dir.c_str());
+    system(std::string{"cmake ."}.c_str());
+    system(std::string{"cmake ."}.c_str());
+    system("make");
+    chdir(wdir.c_str());
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-/// Set the compiler.
-/////////////////////////////////////////////////////////////////////////////////////////
-void c2Compiler::set_compiler(std::string const& comp) {
-	compiler = comp;
+void c2Compiler::set_directory(std::string const& dir) {
+    directory = dir;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-/// Add flag the compilation.
-/////////////////////////////////////////////////////////////////////////////////////////
-void c2Compiler::add_flag(std::string const& flag) {
-	flags.push_back(flag);
+void c2Compiler::set_project_name(std::string const& pn) {
+    project_name = pn;
 }
 
-void c2Compiler::add_includes(std::string const& inc) {
-    incs = inc;
+void c2Compiler::set_cmake_name(std::string const& cmn) {
+    cmake_name = cmn;
 }
 
-void c2Compiler::add_libraries(std::string const& lib) {
-    libs = lib;
-}

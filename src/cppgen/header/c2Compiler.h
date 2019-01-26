@@ -27,18 +27,18 @@
 namespace c2c {
 	class c2Compiler {
 	private:
-        std::vector<std::string> flags;
-        std::string incs;
-        std::string libs;
-        std::string compiler = "clang++";
-		std::string name;
-	public:
-		c2Compiler(std::string const& n) : name{n} {}
-        void set_compiler(std::string const& comp);
-        void add_flag(std::string const& flag);
-        void add_includes(std::string const& inc);
-        void add_libraries(std::string const& lib);
-		void compile() const;
+        std::string directory = "build";
+        std::string project_name;
+        std::string cmake_name = "CMakeLists.txt";
+    public:
+        std::string current_directory() const;
+        void generate_cmake_file() const;
+        c2Compiler(std::string const& n) : project_name{n} {}
+        void set_directory(std::string const& dir);
+        void set_project_name(std::string const& pn);
+        void set_cmake_name(std::string const& cmn);
+        void compile() const;
+        void write_cmake_lists() const;
 	};
 }
 
