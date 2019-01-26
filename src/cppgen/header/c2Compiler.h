@@ -26,6 +26,7 @@
 #include "c2CPP_source_file.h"
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace c2c {
     /** This class wraps the runtime code assemly, compilation and linking.

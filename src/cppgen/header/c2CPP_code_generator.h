@@ -24,6 +24,7 @@
 #include "c2CPP_header_file.h"
 #include "c2CPP_source_file.h"
 #include <vector>
+#include <memory>
 #include <string>
 
 namespace c2c {
