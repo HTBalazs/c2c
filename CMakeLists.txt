@@ -3,8 +3,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-pthread -O3 -fPIC")
 project(c2c)
 
-link_directories(/usr/local/lib/prolog)
-include_directories(/usr/local/include)
+link_directories(~/local/lib/prolog)
+include_directories(~/local/include)
 
 #Look for source and header files recursively in the src/ directory
 file(GLOB_RECURSE SOURCES src/*.cpp)
@@ -23,8 +23,8 @@ include_directories(${HEADERS_DIRS})
 message(${HEADERS_DIRS})
 
 # Define library and include directories
-set(STATIC_LIB_DIR /usr/local/lib/c2c)
-set(INCLUDE_DIR /usr/local/include/c2c)
+set(STATIC_LIB_DIR ~/local/lib/c2c)
+set(INCLUDE_DIR ~/local/include/c2c)
 # set archive output to <project_directory>/lib
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY lib/)
 # generate libc2c.a file
