@@ -90,6 +90,14 @@ void c2Cmake_generator::add_dependency(std::string const& dep) {
     dependencies.push_back(dep);
 }
 
+void c2Cmake_generator::add_include(std::string const& inc) {
+    includes.push_back(inc);
+}
+
+void c2Cmake_generator::add_package(std::string const& pkg) {
+    packages.push_back(pkg);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Generate CMakeLists.txt file.
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -104,11 +112,17 @@ void c2Cmake_generator::generate_cmake_file() const {
     cmake_file  << "set(CMAKE_BUILD_TYPE " << (btype==RELEASE?"RELEASE":"DEBUG") << ")\n";
     cmake_file  << "set(CMAKE_CXX_STANDARD " << cxx_standard << ")\n";
     cmake_file  << "set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} \"" << cxx_flags << "\")\n";
+    for(auto const& it:packages) {
+        cmake_file << "find_package(" << it << ")\n";
+    }
     for(auto const& it:link_dirs) {
         cmake_file << "link_directories(" << it << ")\n";
     }
     for(auto const& it:include_dirs) {
         cmake_file << "include_directories(" << it << ")\n";
+    }
+    for(auto const& it:includes) {
+        cmake_file << "include(" << it << ")\n";
     }
     cmake_file  << "add_library(" << project_name << " SHARED " << project_name << ".cpp)\n";
     cmake_file  << "set_target_properties(" << project_name << " PROPERTIES SUFFIX \".so\")\n\n";

@@ -21,9 +21,11 @@
 #ifndef _INTERFACECLASS_H_
 #define _INTERFACECLASS_H_
 
-class c2Interface {
-public:
-	virtual ~c2Interface() {};
-};
+namespace c2c {
+    class c2Interface {
+    public:
+    	virtual ~c2Interface() {};
+    };
+}
 
 #endif // _INTERFACECLASS_H_

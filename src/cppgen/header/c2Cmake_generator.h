@@ -40,6 +40,8 @@ namespace c2c {
         std::vector<std::string> link_dirs;
         std::vector<std::string> include_dirs;
         std::vector<std::string> dependencies;
+        std::vector<std::string> includes;
+        std::vector<std::string> packages;
     public:
         void set_directory(std::string const& dir);
         void set_cmake_version(std::string const& cmn);
@@ -50,6 +52,8 @@ namespace c2c {
         void add_link_dir(std::string const& ldir);
         void add_include_dir(std::string const& idir);
         void add_dependency(std::string const& dep);
+        void add_include(std::string const& inc);
+        void add_package(std::string const& pkg);
         void generate_cmake_file() const;
 	};
 }
