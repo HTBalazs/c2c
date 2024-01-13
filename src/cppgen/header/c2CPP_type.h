@@ -32,7 +32,7 @@ namespace c2c {
         std::string form = "";
     public:
     	c2CPP_type(std::string const& t, bool const& c=false, std::string const& f="") : type{t}, constant{c}, form{f} {}
-    	virtual std::string get_declaration_code() const;
+    	virtual std::string get_declaration_code(bool const& print_init=true) const;
     	friend std::stringstream& operator<<(std::stringstream& ss, c2CPP_type const& typ);
     };
 

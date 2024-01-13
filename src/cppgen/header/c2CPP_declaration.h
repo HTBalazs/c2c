@@ -34,7 +34,7 @@ namespace c2c {
         c2CPP_declaration(c2CPP_type const& typ, std::string const& n, std::string const& init="") : c2CPP_type{typ}, name{n}, init_value{init} {}
     	c2CPP_declaration(std::string const& t, std::string const& n, bool const& c=false, std::string const& f="", std::string const& init="") : c2CPP_type{t,c,f}, name{n}, init_value{init} {}
         std::string get_name() const;
-    	virtual std::string get_declaration_code() const override;
+    	virtual std::string get_declaration_code(bool const& print_init=true) const override;
     	friend std::stringstream& operator<<(std::stringstream& ss, c2CPP_declaration const& typ);
     };
 

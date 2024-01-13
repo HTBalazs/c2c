@@ -34,11 +34,11 @@ namespace c2c {
 		bool function_const = false;
 		bool function_override = false;
 	private:
-		std::string get_argument_list() const;
+		std::string get_argument_list(bool const& print_init=true) const;
 	public:
 		c2CPP_class_member_function(c2CPP_class_member_type const& mtype, std::vector<c2CPP_declaration> const& args, std::string const& con="", bool const& fc=false, bool const& ovr=false) : c2CPP_class_member_type{mtype}, arguments{args}, content{con}, function_const{fc}, function_override{ovr} {}
 		c2CPP_class_member_function(std::string const& t, std::string const& n, bool const& c, std::string const& f="", std::vector<c2CPP_declaration> const& args=std::vector<c2CPP_declaration>{}, accessibility const& a=PRIVATE, std::string const& con="", bool const& fc=false, bool const& ovr=false) : c2CPP_class_member_type{t,n,c,f,"",a}, arguments{args}, content{con}, function_const{fc}, function_override{ovr} {}
-		std::string get_declaration_code() const override;
+		std::string get_declaration_code(bool const& print_init=true) const override;
 		std::string get_definition_code(std::string const& class_name) const;
 		void set_content(std::string const& c);
 		friend std::stringstream& operator<<(std::stringstream& ss, c2CPP_class_member_function const& mf);

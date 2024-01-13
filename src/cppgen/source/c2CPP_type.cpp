@@ -25,7 +25,7 @@ using namespace c2c;
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Returns the declaration code of the type.
 /////////////////////////////////////////////////////////////////////////////////////////
-std::string c2CPP_type::get_declaration_code() const {
+std::string c2CPP_type::get_declaration_code(bool const& print_init/*=true*/) const {
     std::string code = type + (constant?" const":"") + form;
 	return code;
 }

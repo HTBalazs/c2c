@@ -25,10 +25,10 @@ using namespace c2c;
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Returns the argument list of the function.
 /////////////////////////////////////////////////////////////////////////////////////////
-std::string c2CPP_class_member_function::get_argument_list() const {
+std::string c2CPP_class_member_function::get_argument_list(bool const& print_init/*=true*/) const {
 	std::string argument_list = "";
 	for(auto const& it:arguments) {
-		argument_list += it.get_declaration_code();
+		argument_list += it.get_declaration_code(print_init);
 		if(&it!=&arguments.back()) {
 			argument_list += ", ";
 		}
@@ -39,7 +39,7 @@ std::string c2CPP_class_member_function::get_argument_list() const {
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Returns the declaration code of the function.
 /////////////////////////////////////////////////////////////////////////////////////////
-std::string c2CPP_class_member_function::get_declaration_code() const {
+std::string c2CPP_class_member_function::get_declaration_code(bool const& print_init/*=true*/) const {
 	std::string declaration = c2CPP_declaration::get_declaration_code() + "(" + get_argument_list() + std::string{")"} + ((function_const)?" const":"") + ((function_override)?" override;":";");
 	return declaration;
 }
@@ -48,7 +48,7 @@ std::string c2CPP_class_member_function::get_declaration_code() const {
 /// Returns the code definition of the function as the member of the given class.
 /////////////////////////////////////////////////////////////////////////////////////////
 std::string c2CPP_class_member_function::get_definition_code(std::string const& class_name) const {
-	std::string definition = c2CPP_type::get_declaration_code() + " " + class_name + "::" + name + "(" + get_argument_list() + ")" + ((function_const)?" const {\n":" {\n") + content + "\n}";
+	std::string definition = c2CPP_type::get_declaration_code() + " " + class_name + "::" + name + "(" + get_argument_list(false) + ")" + ((function_const)?" const {\n":" {\n") + content + "\n}";
 	return definition;
 }
 

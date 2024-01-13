@@ -25,8 +25,8 @@ using namespace c2c;
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Returns the declaration code.
 /////////////////////////////////////////////////////////////////////////////////////////
-std::string c2CPP_declaration::get_declaration_code() const {
-    std::string code = c2CPP_type::get_declaration_code() + " " + name + (init_value==""?"":" = " + init_value);
+std::string c2CPP_declaration::get_declaration_code(bool const& print_init/*=true*/) const {
+    std::string code = c2CPP_type::get_declaration_code() + " " + name + (init_value==""&&print_init?"":" = " + init_value);
 	return code;
 }
 
