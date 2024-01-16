@@ -98,6 +98,10 @@ void c2Cmake_generator::add_package(std::string const& pkg) {
     packages.push_back(pkg);
 }
 
+void c2Cmake_generator::add_definitions(std::string const& def) {
+    definitions.push_back(def);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Generate CMakeLists.txt file.
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -128,6 +132,9 @@ void c2Cmake_generator::generate_cmake_file() const {
     cmake_file  << "set_target_properties(" << project_name << " PROPERTIES SUFFIX \".so\")\n\n";
     for(auto const& it:dependencies) {
         cmake_file << "target_link_libraries(" << project_name << " " << it << ")\n";
+    }
+    for(auto const& it:definitions) {
+        cmake_file << "add_definitions(" << it << ")\n";
     }
     cmake_file.close();
 }

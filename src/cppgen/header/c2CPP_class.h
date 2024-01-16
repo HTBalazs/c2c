@@ -41,6 +41,7 @@ namespace c2c {
 		void add_member_function(c2CPP_class_member_function const& mfunction);
 		void add_member_type(std::string const& type, std::string const& name, bool const& c=false, std::string const& f="", std::string const& init="", accessibility const& a=PRIVATE);
 		void add_member_function(std::string const& type, std::string const& name, bool const& c, std::string const& f="", std::vector<c2CPP_declaration> const& args=std::vector<c2CPP_declaration>{}, accessibility const& a=PRIVATE, std::string const& con="", bool const& fc=false, bool const& ovr=false);
+		void add_static_member_function(std::string const& type, std::string const& name, bool const& c, std::string const& f="", std::vector<c2CPP_declaration> const& args=std::vector<c2CPP_declaration>{}, accessibility const& a=PRIVATE, std::string const& con="");
 		void add_comment(std::string const& c);
 		void add_interface(std::string const& parent);
 		c2CPP_class_member_function& get_member_function(std::string const& n);

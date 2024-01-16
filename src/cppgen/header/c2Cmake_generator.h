@@ -42,6 +42,7 @@ namespace c2c {
         std::vector<std::string> dependencies;
         std::vector<std::string> includes;
         std::vector<std::string> packages;
+        std::vector<std::string> definitions;
     public:
         void set_directory(std::string const& dir);
         void set_cmake_version(std::string const& cmn);
@@ -55,6 +56,7 @@ namespace c2c {
         void add_include(std::string const& inc);
         void add_package(std::string const& pkg);
         void generate_cmake_file() const;
+        void add_definitions(std::string const& def);
 	};
 }
 

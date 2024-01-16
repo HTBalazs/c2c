@@ -40,7 +40,12 @@ std::string c2CPP_class_member_function::get_argument_list(bool const& print_ini
 /// Returns the declaration code of the function.
 /////////////////////////////////////////////////////////////////////////////////////////
 std::string c2CPP_class_member_function::get_declaration_code(bool const& print_init/*=true*/) const {
-	std::string declaration = c2CPP_declaration::get_declaration_code() + "(" + get_argument_list() + std::string{")"} + ((function_const)?" const":"") + ((function_override)?" override;":";");
+	std::string declaration = "";
+	if(function_static) {
+		declaration = "static "+c2CPP_declaration::get_declaration_code() + "(" + get_argument_list()+ ");";
+	} else {
+		declaration = c2CPP_declaration::get_declaration_code() + "(" + get_argument_list() + std::string{")"} + ((function_const)?" const":"") + ((function_override)?" override;":";");
+	}
 	return declaration;
 }
 
@@ -48,7 +53,12 @@ std::string c2CPP_class_member_function::get_declaration_code(bool const& print_
 /// Returns the code definition of the function as the member of the given class.
 /////////////////////////////////////////////////////////////////////////////////////////
 std::string c2CPP_class_member_function::get_definition_code(std::string const& class_name) const {
-	std::string definition = c2CPP_type::get_declaration_code() + " " + class_name + "::" + name + "(" + get_argument_list(false) + ")" + ((function_const)?" const {\n":" {\n") + content + "\n}";
+	std::string definition = "";
+	if(function_static) {
+		definition = "/*static*/ "+c2CPP_type::get_declaration_code() + " " + class_name + "::" + name + "(" + get_argument_list(false) + ")" + " {\n" + content + "\n}";
+	} else {
+		definition = c2CPP_type::get_declaration_code() + " " + class_name + "::" + name + "(" + get_argument_list(false) + ")" + ((function_const)?" const {\n":" {\n") + content + "\n}";
+	}
 	return definition;
 }
 
