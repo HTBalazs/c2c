@@ -22,6 +22,10 @@
 
 using namespace c2c;
 
+void c2CPP_namespace::add_definition(c2CPP_declaration tp) {
+    types.push_back(tp);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Adds class to the namespace.
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -33,6 +37,10 @@ void c2CPP_namespace::add_class(c2CPP_class cl) {
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Returns the vector of classes in the namespace.
 /////////////////////////////////////////////////////////////////////////////////////////
-std::vector<c2CPP_class> c2CPP_namespace::get_classes() const {
+std::vector<c2CPP_class> const& c2CPP_namespace::get_classes() const {
 	return classes;
+}
+
+std::vector<c2CPP_declaration> const& c2CPP_namespace::get_definitions() const {
+    return types;
 }

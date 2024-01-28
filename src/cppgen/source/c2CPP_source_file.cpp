@@ -44,7 +44,9 @@ void c2CPP_source_file::write_file(std::string const& directory/*=""*/) const {
     for(auto const& it_ns:namespaces) {
         for(auto const& it_cl:it_ns.get_classes()) {
             for(auto const& it_mf:it_cl.get_member_functions()) {
-                source_file << it_mf.get_definition_code(it_cl.get_name()) << "\n\n";
+                if(!it_mf.is_inline()) {
+                    source_file << it_mf.get_definition_code(it_cl.get_name()) << "\n\n";
+                }
             }
         }
     }

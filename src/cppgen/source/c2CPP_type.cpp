@@ -22,6 +22,18 @@
 
 using namespace c2c;
 
+void c2CPP_type::set_type(std::string const& t) {
+    type = t;
+}
+
+void c2CPP_type::set_constant(bool const& c) {
+    constant = c;
+}
+
+void c2CPP_type::set_form(std::string const& f) {
+    form = f;
+}
+
 
 std::string const& c2CPP_type::get_type() const {
     return type;

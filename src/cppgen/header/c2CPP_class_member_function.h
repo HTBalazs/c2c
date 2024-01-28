@@ -29,19 +29,26 @@
 namespace c2c {
 	class c2CPP_class_member_function : public c2CPP_class_member_type  {
 	protected:
+		std::vector<c2CPP_declaration> template_arguments;
 		std::vector<c2CPP_declaration> arguments;
 		std::string content;
 		bool function_const = false;
 		bool function_override = false;
 		bool function_static = false;
+		bool function_inline = false;
 	private:
 		std::string get_argument_list(bool const& print_init=true) const;
 	public:
-		c2CPP_class_member_function(c2CPP_class_member_type const& mtype, std::vector<c2CPP_declaration> const& args, std::string const& con="", bool const& fc=false, bool const& ovr=false, bool const& st=false) : c2CPP_class_member_type{mtype}, arguments{args}, content{con}, function_const{fc}, function_override{ovr}, function_static{st} {}
-		c2CPP_class_member_function(std::string const& t, std::string const& n, bool const& c, std::string const& f="", std::vector<c2CPP_declaration> const& args=std::vector<c2CPP_declaration>{}, accessibility const& a=PRIVATE, std::string const& con="", bool const& fc=false, bool const& ovr=false, bool const& st=false) : c2CPP_class_member_type{t,n,c,f,"",a}, arguments{args}, content{con}, function_const{fc}, function_override{ovr}, function_static{st} {}
+		c2CPP_class_member_function(c2CPP_class_member_type const& mtype, std::vector<c2CPP_declaration> const& args, std::string const& con="", bool const& fc=false, bool const& ovr=false, bool const& st=false, bool const& inl=false) : c2CPP_class_member_type{mtype}, arguments{args}, content{con}, function_const{fc}, function_override{ovr}, function_static{st}, function_inline{inl} {}
+		c2CPP_class_member_function(std::string const& t, std::string const& n, bool const& c, std::string const& f="", std::vector<c2CPP_declaration> const& args=std::vector<c2CPP_declaration>{}, accessibility const& a=PRIVATE, std::string const& con="", bool const& fc=false, bool const& ovr=false, bool const& st=false, bool const& inl=false) : c2CPP_class_member_type{t,n,c,f,"",a}, arguments{args}, content{con}, function_const{fc}, function_override{ovr}, function_static{st}, function_inline{inl} {}
+		void add_template_argument(c2CPP_declaration tmpl_arg);
 		std::string get_declaration_code(bool const& print_init=true) const override;
 		std::string get_definition_code(std::string const& class_name) const;
 		void set_content(std::string const& c);
+		bool is_const() const;
+		bool is_override() const;
+		bool is_static() const;
+		bool is_inline() const;
 		friend std::stringstream& operator<<(std::stringstream& ss, c2CPP_class_member_function const& mf);
 	};
 

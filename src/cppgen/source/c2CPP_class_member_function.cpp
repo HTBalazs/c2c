@@ -22,6 +22,10 @@
 
 using namespace c2c;
 
+void c2CPP_class_member_function::add_template_argument(c2CPP_declaration tmpl_arg) {
+	template_arguments.push_back(tmpl_arg);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Returns the argument list of the function.
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -41,10 +45,20 @@ std::string c2CPP_class_member_function::get_argument_list(bool const& print_ini
 /////////////////////////////////////////////////////////////////////////////////////////
 std::string c2CPP_class_member_function::get_declaration_code(bool const& print_init/*=true*/) const {
 	std::string declaration = "";
+	if(!template_arguments.empty()) {
+		declaration += "template <";
+	}
+	for(auto const& it:template_arguments) {
+		declaration += it.get_declaration_code()+",";
+	}
+	if(!template_arguments.empty()) {
+		declaration.pop_back();
+		declaration += "> ";
+	}
 	if(function_static) {
-		declaration = "static "+c2CPP_declaration::get_declaration_code() + "(" + get_argument_list()+ ");";
+		declaration += "static "+c2CPP_declaration::get_declaration_code() + "(" + get_argument_list()+ ");";
 	} else {
-		declaration = c2CPP_declaration::get_declaration_code() + "(" + get_argument_list() + std::string{")"} + ((function_const)?" const":"") + ((function_override)?" override;":";");
+		declaration += c2CPP_declaration::get_declaration_code() + "(" + get_argument_list() + std::string{")"} + ((function_const)?" const":"") + ((function_override)?" override;":";");
 	}
 	return declaration;
 }
@@ -54,10 +68,20 @@ std::string c2CPP_class_member_function::get_declaration_code(bool const& print_
 /////////////////////////////////////////////////////////////////////////////////////////
 std::string c2CPP_class_member_function::get_definition_code(std::string const& class_name) const {
 	std::string definition = "";
+	if(!template_arguments.empty()) {
+		definition += "template <";
+	}
+	for(auto const& it:template_arguments) {
+		definition += it.get_declaration_code()+",";
+	}
+	if(!template_arguments.empty()) {
+		definition.pop_back();
+		definition += "> ";
+	}
 	if(function_static) {
-		definition = "/*static*/ "+c2CPP_type::get_declaration_code() + " " + class_name + "::" + name + "(" + get_argument_list(false) + ")" + " {\n" + content + "\n}";
+		definition += "/*static*/ " + std::string(function_inline?"inline ":"")+c2CPP_type::get_declaration_code() + " " + class_name + "::" + name + "(" + get_argument_list(false) + ")" + " {\n" + content + "\n}";
 	} else {
-		definition = c2CPP_type::get_declaration_code() + " " + class_name + "::" + name + "(" + get_argument_list(false) + ")" + ((function_const)?" const {\n":" {\n") + content + "\n}";
+		definition += std::string((function_inline&&template_arguments.empty())?"inline ":"")+c2CPP_type::get_declaration_code() + " " + class_name + "::" + name + "(" + get_argument_list(false) + ")" + ((function_const)?" const {\n":" {\n") + content + "\n}";
 	}
 	return definition;
 }
@@ -67,4 +91,32 @@ std::string c2CPP_class_member_function::get_definition_code(std::string const& 
 /////////////////////////////////////////////////////////////////////////////////////////
 void c2CPP_class_member_function::set_content(std::string const& c) {
 	content = c;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/// Returns true if the function is const.
+/////////////////////////////////////////////////////////////////////////////////////////
+bool c2CPP_class_member_function::is_const() const {
+	return function_const;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/// Returns true if the function is override.
+/////////////////////////////////////////////////////////////////////////////////////////
+bool c2CPP_class_member_function::is_override() const {
+	return function_override;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/// Returns true if the function is static.
+/////////////////////////////////////////////////////////////////////////////////////////
+bool c2CPP_class_member_function::is_static() const {
+	return function_static;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/// Returns true if the function is inline.
+/////////////////////////////////////////////////////////////////////////////////////////
+bool c2CPP_class_member_function::is_inline() const {
+	return function_inline||!template_arguments.empty();
 }

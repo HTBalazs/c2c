@@ -33,6 +33,9 @@ namespace c2c {
     public:
     	c2CPP_type(std::string const& t, bool const& c=false, std::string const& f="") : type{t}, constant{c}, form{f} {}
         std::string const& get_type() const;
+        void set_type(std::string const& t);
+        void set_constant(bool const& c);
+        void set_form(std::string const& f);
     	virtual std::string get_declaration_code(bool const& print_init=true) const;
     	friend std::stringstream& operator<<(std::stringstream& ss, c2CPP_type const& typ);
     };

@@ -22,25 +22,45 @@
 #define _CPPNAMESPACE_H_
 
 #include "c2CPP_scope.h"
+#include "c2CPP_declaration.h"
 #include "c2CPP_class.h"
 #include <sstream>
+#include <iostream>
 #include <vector>
 #include <string>
+#include <regex>
 
 namespace c2c {
 	class c2CPP_namespace : public c2CPP_scope {
+		std::vector<c2CPP_declaration> types;
 		std::vector<c2CPP_class> classes;
 	public:
 		c2CPP_namespace(std::string const& n) : c2CPP_scope{"namespace", n} {}
 		void add_class(c2CPP_class cl);
-		std::vector<c2CPP_class> get_classes() const;
+		void add_definition(c2CPP_declaration tp);
+		std::vector<c2CPP_class> const& get_classes() const;
+		std::vector<c2CPP_declaration> const& get_definitions() const;
 		friend std::stringstream& operator<<(std::stringstream& ss, c2CPP_namespace const& ns);
 	};
 	
 	inline std::stringstream& operator<<(std::stringstream& ss, c2CPP_namespace const& ns) {
 		ss << ns.open_session().c_str();
+		for(auto const& it:ns.types) {
+			ss << "\t";
+			ss << it << "\n";
+		}
+		ss << "\n";
 		for(auto const& it:ns.classes) {
 			ss << it << "\n";
+		}
+		for(auto const& it_cl:ns.classes) {
+			for(auto const& it_mf:it_cl.get_member_functions()) {
+				if(it_mf.is_inline()) {
+					ss << "\n\t";
+					std::regex pattern("\n");
+					ss << std::regex_replace(it_mf.get_definition_code(it_cl.get_name()),pattern,"\n\t").c_str() << std::endl;
+				}
+			}
 		}
 		ss << ns.close_session().c_str() << "\n";
 		return ss;

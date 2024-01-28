@@ -65,15 +65,15 @@ void c2CPP_class::add_member_type(std::string const& type, std::string const& na
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Add member function to the class. 
 /////////////////////////////////////////////////////////////////////////////////////////
-void c2CPP_class::add_member_function(std::string const& type, std::string const& name, bool const& c, std::string const& f/*=""*/, std::vector<c2CPP_declaration> const& args/*=std::vector<c2CPP_declaration>{}*/, accessibility const& a/*=PRIVATE*/, std::string const& con/*=""*/, bool const& fc/*=false*/, bool const& ovr/*=false*/) {
-	member_functions.push_back(c2CPP_class_member_function{type, name, c, f, args, a, con, fc, ovr});
+void c2CPP_class::add_member_function(std::string const& type, std::string const& name, bool const& c, std::string const& f/*=""*/, std::vector<c2CPP_declaration> const& args/*=std::vector<c2CPP_declaration>{}*/, accessibility const& a/*=PRIVATE*/, std::string const& con/*=""*/, bool const& fc/*=false*/, bool const& ovr/*=false*/, bool const& inl/*=false*/) {
+	member_functions.push_back(c2CPP_class_member_function{type, name, c, f, args, a, con, fc, ovr, false, inl});
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Add static member function to the class. 
 /////////////////////////////////////////////////////////////////////////////////////////
-void c2CPP_class::add_static_member_function(std::string const& type, std::string const& name, bool const& c, std::string const& f/*=""*/, std::vector<c2CPP_declaration> const& args/*=std::vector<c2CPP_declaration>{}*/, accessibility const& a/*=PRIVATE*/, std::string const& con/*=""*/) {
-	member_functions.push_back(c2CPP_class_member_function{type, name, c, f, args, a, con, false, false, true});
+void c2CPP_class::add_static_member_function(std::string const& type, std::string const& name, bool const& c, std::string const& f/*=""*/, std::vector<c2CPP_declaration> const& args/*=std::vector<c2CPP_declaration>{}*/, accessibility const& a/*=PRIVATE*/, std::string const& con/*=""*/, bool const& inl/*=false*/) {
+	member_functions.push_back(c2CPP_class_member_function{type, name, c, f, args, a, con, false, false, true, inl});
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
